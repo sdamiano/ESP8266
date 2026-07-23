@@ -1,14 +1,27 @@
-# ESP8266
-ESP8266 funcionando con protocolo ESP-NOW
+# Dos módulos ESP8266 funcionando con protocolo ESP-NOW
+
+## 🛠️ Arquitectura del Sistema
+
+  ┌─────────────────────────┐                   ┌─────────────────────────┐
+  │   NODO 1: EMISOR        │                   │   NODO 2: RECEPTOR      │
+  │                         │                   │                         │
+  │   [Sensor AHT10]        │   ESP-NOW (2.4GHz)│   [Display LCD 16x2]    │
+  │         │               │ ────────────────► │         │               │
+  │      (I2C)              │     Canal 1       │      (I2C)              │
+  │         ▼               │                   │         ▼               │
+  │   ESP8266 NodeMCU       │                   │   ESP8266 NodeMCU       │
+  └─────────────────────────┘                   └─────────────────────────┘
 
 En los proyectos de Internet de las Cosas (IoT), la comunicación inalámbrica entre dispositivos suele depender de una red Wi-Fi local y de protocolos como MQTT o Sockets TCP. Sin embargo, cuando necesitamos conectar dos módulos de forma directa, rápida y sin depender de un router, ESP-NOW —el protocolo desarrollado por Espressif— es el rey indiscutido.
 
 En este artículo técnico, documentaremos cómo conectar un nodo sensor de temperatura y humedad (AHT10) con un nodo receptor equipado con un display LCD 16×2 I2C, utilizando la versión más reciente de MicroPython (v1.23). Además, analizaremos los problemas típicos de bootloop en placas clonadas y cómo solucionarlos.
 
-El Desafío del Hardware: Firmwares Nuevos vs. Memorias Flash
+## El Desafío del Hardware: Firmwares Nuevos vs. Memorias Flash
+
 Al trabajar con módulos ESP8266 económicos (como el NodeMCU Amica), las versiones de MicroPython superiores a la v1.22 pueden generar un bucle infinito de reinicios (bootloop) en el primer arranque, inundando la consola de caracteres extraños y congelando entornos como Thonny IDE.
 
-La Solución Definitiva al Bootloop:
+## La Solución Definitiva al Bootloop:
+
 Para solucionar esto de raíz, evitamos el instalador automático del IDE y recurrimos a NodeMCU PyFlasher (o esptool.py por línea de comandos) aplicando la siguiente configuración estratégica:
 
 Flash Mode: dio o dout (estos modos de direccionamiento son más compatibles con chips de memoria clonados que el modo qio).
@@ -17,7 +30,7 @@ Erase Flash: Seleccionar obligatoriamente Yes para limpiar cualquier residuo cor
 
 Nota de arquitectura: Para este proyecto, configuramos ambos módulos con la versión MicroPython v1.23, la cual ya incluye soporte nativo y estable para el módulo espnow.
 
-1. Nodo 1: El Emisor (Sensor AHT10)
+## 1. Nodo 1: El Emisor (Sensor AHT10)
    
 El AHT10 es un sensor de alta precisión que trabaja bajo el protocolo I2C. Lo alimentamos estrictamente a 3.3V desde la placa NodeMCU.
 
@@ -40,7 +53,7 @@ IMPORTANTE: Al subirlo renombralo como main.py
 
 Detalle crítico de ESP-NOW: Las antenas deben sintonizar obligatoriamente el mismo canal de radio. Usamos wlan.disconnect() para forzar al chip a trabajar de forma aislada en el Canal 1. Además, el emisor debe conocer por bytes hexadecimales la dirección MAC del receptor.
 
-2. Nodo 2: El Receptor (Display LCD 16×2 I2C)
+##2. Nodo 2: El Receptor (Display LCD 16×2 I2C)
 El adaptador de la pantalla LCD funciona de forma óptima a 5V. Lo conectamos al pin VIN del NodeMCU Amica (que toma la energía directa del puerto USB).
 
 Conexiones Físicas:
@@ -78,7 +91,7 @@ Los puntos clave para el éxito de este despliegue fueron la correcta elección 
 
 Un detalla importante, al actualizar el firmware de los ESP8266, literalmente dejaron de funcionar (BootLoop). Desde Thonny Python no hubo forma de revivirlos. Si se pudo hacer un flasheo correcto utilizando el software NodeMCU-PyFlasher
 
-La Solución Definitiva al Bootloop:
+##La Solución Definitiva al Bootloop:
 
 Para solucionar esto de raíz, evitamos el instalador automático del IDE y recurrimos a NodeMCU PyFlasher aplicando la siguiente configuración estratégica:
 
