@@ -4,7 +4,7 @@
 
 En los proyectos de Internet de las Cosas (IoT), la comunicación inalámbrica entre dispositivos suele depender de una red Wi-Fi local y de protocolos como MQTT o Sockets TCP. Sin embargo, cuando necesitamos conectar dos módulos de forma directa, rápida y sin depender de un router, ESP-NOW —el protocolo desarrollado por Espressif— es el rey indiscutido.
 
-En este artículo técnico, documentaremos cómo conectar un nodo sensor de temperatura y humedad (AHT10) con un nodo receptor equipado con un display LCD 16×2 I2C, utilizando la versión más reciente de MicroPython (v1.23). Además, analizaremos los problemas típicos de bootloop en placas clonadas y cómo solucionarlos.
+## En este artículo técnico, documentaremos cómo conectar un nodo sensor de temperatura y humedad (AHT10) con un nodo receptor equipado con un display LCD 16×2 I2C, utilizando la versión más reciente de MicroPython (v1.23). Además, analizaremos los problemas típicos de bootloop en placas clonadas y cómo solucionarlos.
 
 ## El Desafío del Hardware: Firmwares Nuevos vs. Memorias Flash
 
@@ -12,7 +12,7 @@ Al trabajar con módulos ESP8266 económicos (como el NodeMCU Amica), las versio
 
 ## 1. Nodo 1: El Emisor (Sensor AHT10)
    
-**El AHT10 es un sensor de alta precisión que trabaja bajo el protocolo I2C. Lo alimentamos estrictamente a 3.3V desde la placa NodeMCU.
+** El AHT10 es un sensor de alta precisión que trabaja bajo el protocolo I2C. Lo alimentamos estrictamente a 3.3V desde la placa NodeMCU.
 
 Conexiones Físicas (I2C por defecto):
 VIN ➡️ 3V3
@@ -33,7 +33,7 @@ IMPORTANTE: Al subirlo renombralo como main.py
 
 Detalle crítico de ESP-NOW: Las antenas deben sintonizar obligatoriamente el mismo canal de radio. Usamos wlan.disconnect() para forzar al chip a trabajar de forma aislada en el Canal 1. Además, el emisor debe conocer por bytes hexadecimales la dirección MAC del receptor.
 
-##2. Nodo 2: El Receptor (Display LCD 16×2 I2C)
+## 2. Nodo 2: El Receptor (Display LCD 16×2 I2C)
 El adaptador de la pantalla LCD funciona de forma óptima a 5V. Lo conectamos al pin VIN del NodeMCU Amica (que toma la energía directa del puerto USB).
 
 Conexiones Físicas:
@@ -71,7 +71,7 @@ Los puntos clave para el éxito de este despliegue fueron la correcta elección 
 
 Un detalla importante, al actualizar el firmware de los ESP8266, literalmente dejaron de funcionar (BootLoop). Desde Thonny Python no hubo forma de revivirlos. Si se pudo hacer un flasheo correcto utilizando el software NodeMCU-PyFlasher
 
-##La Solución Definitiva al Bootloop:
+## La Solución Definitiva al Bootloop:
 
 Para solucionar esto de raíz, evitamos el instalador automático del IDE y recurrimos a NodeMCU PyFlasher aplicando la siguiente configuración estratégica:
 
