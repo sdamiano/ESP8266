@@ -2,16 +2,6 @@
 
 ## 🛠️ Arquitectura del Sistema
 
-  ┌─────────────────────────┐                   ┌─────────────────────────┐
-  │   NODO 1: EMISOR        │                   │   NODO 2: RECEPTOR      │
-  │                         │                   │                         │
-  │   [Sensor AHT10]        │   ESP-NOW (2.4GHz)│   [Display LCD 16x2]    │
-  │         │               │ ────────────────► │         │               │
-  │      (I2C)              │     Canal 1       │      (I2C)              │
-  │         ▼               │                   │         ▼               │
-  │   ESP8266 NodeMCU       │                   │   ESP8266 NodeMCU       │
-  └─────────────────────────┘                   └─────────────────────────┘
-
 En los proyectos de Internet de las Cosas (IoT), la comunicación inalámbrica entre dispositivos suele depender de una red Wi-Fi local y de protocolos como MQTT o Sockets TCP. Sin embargo, cuando necesitamos conectar dos módulos de forma directa, rápida y sin depender de un router, ESP-NOW —el protocolo desarrollado por Espressif— es el rey indiscutido.
 
 En este artículo técnico, documentaremos cómo conectar un nodo sensor de temperatura y humedad (AHT10) con un nodo receptor equipado con un display LCD 16×2 I2C, utilizando la versión más reciente de MicroPython (v1.23). Además, analizaremos los problemas típicos de bootloop en placas clonadas y cómo solucionarlos.
